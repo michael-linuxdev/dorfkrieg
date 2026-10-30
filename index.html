@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#14201b" />
+    <meta
+      name="description"
+      content="Dorfkrieg: Baue ein Dorf, sammle Gold und Harz, bilde Truppen aus und greife Feinddörfer an."
+    />
+    <title>Dorfkrieg</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <strong>Dorfkrieg</strong>
+        <span>Baue, sammle, greif an</span>
+      </div>
+      <div class="resources">
+        <div class="pill gold" id="pill-gold" title="Gold im Lager und Kapazität">
+          <span class="swatch"></span>
+          <span><b id="gold-n">0</b> <span class="cap" id="gold-c">/ 0</span></span>
+        </div>
+        <div class="pill harz" id="pill-harz" title="Harz im Lager und Kapazität">
+          <span class="swatch"></span>
+          <span><b id="harz-n">0</b> <span class="cap" id="harz-c">/ 0</span></span>
+        </div>
+        <div class="pill hall" title="Stufe des Rathauses"><span id="hall-n">Rathaus 1</span></div>
+      </div>
+      <div class="top-actions">
+        <button type="button" id="btn-sound" aria-pressed="true">Ton an</button>
+        <button type="button" id="btn-reset">Neues Dorf</button>
+      </div>
+    </header>
+
+    <div id="layout">
+      <div id="stage">
+        <canvas id="game" aria-label="Spielfeld"></canvas>
+        <div id="banner" class="banner" hidden>
+          <span id="banner-text"></span>
+          <button type="button" id="btn-cancel" hidden>Abbrechen</button>
+        </div>
+        <div class="zoom">
+          <button type="button" id="btn-zoom-in" aria-label="Vergrößern">+</button>
+          <button type="button" id="btn-zoom-out" aria-label="Verkleinern">−</button>
+          <button type="button" id="btn-fit" aria-label="Karte zentrieren">⌖</button>
+        </div>
+        <div id="battle-hud" class="battle-hud" hidden>
+          <div class="stat">
+            <strong id="battle-pct">Zerstörung 0 %</strong>
+            <span id="battle-stars"></span>
+            <span id="battle-time">0s</span>
+          </div>
+          <p id="battle-hint"></p>
+          <button type="button" id="btn-dep-s" aria-pressed="true">Schläger</button>
+          <button type="button" id="btn-dep-sp" aria-pressed="false">Speerwerfer</button>
+          <button type="button" id="btn-speed" aria-pressed="false">Tempo ×2</button>
+          <button type="button" id="btn-retreat" class="danger">Rückzug</button>
+        </div>
+      </div>
+      <aside id="sidebar"></aside>
+    </div>
+
+    <footer id="footer">
+      <div id="status">
+        <span id="army-line">Heer</span>
+        <span id="toast" aria-live="polite"></span>
+      </div>
+      <div class="footer-actions" id="footer-actions">
+        <button type="button" id="btn-raid">Überfall</button>
+        <button type="button" id="btn-attack" class="primary">Angriff</button>
+      </div>
+    </footer>
+
+    <div id="modal" class="modal" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <h2 id="modal-title"></h2>
+        <div id="modal-stars" class="stars"></div>
+        <div id="modal-body"></div>
+        <div class="modal-actions">
+          <button type="button" id="modal-cancel" hidden>Abbrechen</button>
+          <button type="button" id="modal-ok" class="primary">Weiter</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

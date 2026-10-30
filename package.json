@@ -1,0 +1,19 @@
+{
+  "name": "dorfkrieg",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Dorfkrieg – Browserspiel: Dorf bauen, Rohstoffe sammeln, Truppen ausbilden, Feinddörfer angreifen.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "typescript": "~5.6.3",
+    "vite": "^6.0.11"
+  }
+}
