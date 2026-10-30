@@ -142,6 +142,34 @@ export function canDeployAt(battle: BattleState, x: number, y: number): boolean 
   return occupant(battle, x, y) == null
 }
 
+/** Nächstes freie Randfeld, auch wenn der Klick knapp daneben liegt. */
+export function nearestDeployCell(
+  battle: BattleState,
+  gridX: number,
+  gridY: number,
+  maxDist = 2.8,
+): { x: number; y: number } | null {
+  let best: { x: number; y: number } | null = null
+  let bestDist = maxDist
+  for (let i = 0; i < MAP_SIZE; i++) {
+    const candidates = [
+      { x: i, y: 0 },
+      { x: i, y: MAP_SIZE - 1 },
+      { x: 0, y: i },
+      { x: MAP_SIZE - 1, y: i },
+    ]
+    for (const cell of candidates) {
+      if (!canDeployAt(battle, cell.x, cell.y)) continue
+      const dist = Math.hypot(cell.x + 0.5 - gridX, cell.y + 0.5 - gridY)
+      if (dist < bestDist) {
+        bestDist = dist
+        best = cell
+      }
+    }
+  }
+  return best
+}
+
 export function deployTroop(battle: BattleState, kind: TroopKind, x: number, y: number): boolean {
   if (battle.over || battle.mode !== 'attack') return false
   if (!canDeployAt(battle, x, y)) return false

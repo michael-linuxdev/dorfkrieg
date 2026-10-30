@@ -67,7 +67,7 @@ DNS-Änderungen können eine Weile brauchen, bis sie überall sichtbar sind.
 - Ein Tipp auf Goldschacht oder Harzsiederei sammelt Rohstoffe ins Lager, bis die Kapazität voll ist.
 - Ausbauen kostet Rohstoffe und dauert einen Moment. Die Rathaus-Stufe begrenzt die nächste Stufe.
 - In der Kaserne **Schläger** (Nahkampf) und **Speerwerfer** (Fernkampf) ausbilden.
-- **Angriff** öffnet ein Feinddorf. Trupp wählen und auf ein leuchtendes Randfeld tippen. Truppen laufen zu Gebäuden, Türme schießen zurück. Am Ende gibt es Sterne und Beute.
+- **Angriff** öffnet ein Feinddorf. Trupp wählen und auf den goldenen Kartenrand tippen. Ein Klick knapp daneben setzt die Truppe auf das nächste freie Randfeld. Truppen laufen zu Gebäuden, Türme schießen zurück. Am Ende gibt es Sterne und Beute.
 - **Überfall** schickt fremde Truppen auf dein eigenes Dorf. Deine Wachtürme und Palisaden kämpfen mit. Gebäude bleiben stehen, Rohstoffe können verloren gehen.
 - **Rückzug** beendet den Kampf mit dem bisherigen Ergebnis.
 - **Neues Dorf** löscht den lokalen Spielstand.

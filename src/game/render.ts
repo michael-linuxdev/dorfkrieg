@@ -109,14 +109,11 @@ export function renderWorld(
       const outside = x < 0 || y < 0 || x >= model.mapW || y >= model.mapH
       drawTile(ctx, x, y, tileColor(model.tint, x, y, outside))
       if (!outside && hash01(x + 3, y + 9) > 0.94) drawTuft(ctx, x, y)
-      if (
-        model.showDeploy &&
-        !outside &&
-        (x === 0 || y === 0 || x === model.mapW - 1 || y === model.mapH - 1) &&
-        !blocked.has(`${x},${y}`)
-      ) {
-        const pulse = model.reduceMotion ? 0.28 : 0.22 + Math.sin(model.anim * 4 + x + y) * 0.08
-        drawTile(ctx, x, y, `rgba(240, 193, 74, ${pulse.toFixed(3)})`)
+      if (model.showDeploy && deployTint(x, y, model.mapW, model.mapH, outside, blocked)) {
+        const edge = !outside && (x === 0 || y === 0 || x === model.mapW - 1 || y === model.mapH - 1)
+        const pulse = model.reduceMotion ? 0.45 : 0.4 + Math.sin(model.anim * 4 + x + y) * 0.12
+        drawTile(ctx, x, y, `rgba(240, 193, 74, ${(edge ? pulse : pulse * 0.72).toFixed(3)})`)
+        if (edge) strokeFootprint(ctx, x, y, 1, 'rgba(255, 224, 138, 0.95)')
       }
     }
   }
@@ -148,6 +145,19 @@ export function renderWorld(
 
   for (const shot of model.shots) drawShot(ctx, shot)
   for (const floater of model.floaters) drawFloater(ctx, floater)
+}
+
+function deployTint(
+  x: number,
+  y: number,
+  mapW: number,
+  mapH: number,
+  outside: boolean,
+  blocked: Set<string>,
+): boolean {
+  if (outside) return x >= -1 && y >= -1 && x <= mapW && y <= mapH
+  if (blocked.has(`${x},${y}`)) return false
+  return x <= 1 || y <= 1 || x >= mapW - 2 || y >= mapH - 2
 }
 
 function tileColor(tint: 'home' | 'away', x: number, y: number, outside: boolean): string {

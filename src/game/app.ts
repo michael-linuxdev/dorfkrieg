@@ -1,15 +1,15 @@
 import { playCollect, playError, playPlace, playResult } from './audio'
 import {
   battleScore,
-  canDeployAt,
   createAttack,
   createRaid,
   deployTroop,
+  nearestDeployCell,
   tickBattle,
   type BattleState,
 } from './battle'
 import { CATALOG, MAP_SIZE, TROOPS, buildingDef, isCollector, levelStats } from './data'
-import { cellOf, footprintPoly, pointInPoly, toScreen } from './geom'
+import { cellOf, footprintPoly, pointInPoly, screenToGrid, toScreen } from './geom'
 import { clamp } from './geom'
 import { renderWorld, type Camera, type RenderBuilding, type RenderFloater, type RenderModel } from './render'
 import { createInitialState, loadState, writeState } from './save'
@@ -398,7 +398,10 @@ export function startGame(): void {
     const world = clientToWorld(clientX, clientY)
     const cell = cellOf(world.x, world.y)
     if (mode.type === 'battle') {
-      if (mode.battle.mode === 'attack' && !mode.battle.over) onDeployClick(cell.x, cell.y)
+      if (mode.battle.mode === 'attack' && !mode.battle.over) {
+        const grid = screenToGrid(world.x, world.y)
+        onDeployClick(grid.x, grid.y)
+      }
       return
     }
     if (mode.type === 'place') {
@@ -459,15 +462,16 @@ export function startGame(): void {
     refreshUi()
   }
 
-  function onDeployClick(x: number, y: number): void {
+  function onDeployClick(gridX: number, gridY: number): void {
     if (mode.type !== 'battle') return
     if (state.army[selectedTroop] <= 0) {
       setToast('Von diesem Trupp ist niemand mehr übrig.')
       playError(state.sound)
       return
     }
-    if (!canDeployAt(mode.battle, x, y) || !deployTroop(mode.battle, selectedTroop, x, y)) {
-      setToast('Setze Truppen nur auf ein freies Randfeld.')
+    const spot = nearestDeployCell(mode.battle, gridX, gridY)
+    if (!spot || !deployTroop(mode.battle, selectedTroop, spot.x, spot.y)) {
+      setToast('Tippe auf den goldenen Rand, um Truppen abzusetzen.')
       playError(state.sound)
       return
     }
@@ -788,7 +792,7 @@ export function startGame(): void {
     } else if (mode.type === 'battle' && mode.battle.mode === 'attack') {
       banner.hidden = false
       btnCancel.hidden = true
-      bannerText.textContent = 'Feinddorf – Trupp wählen und am leuchtenden Rand absetzen.'
+      bannerText.textContent = 'Feinddorf – Trupp wählen und auf den goldenen Rand tippen.'
     } else if (mode.type === 'battle') {
       banner.hidden = false
       btnCancel.hidden = true
